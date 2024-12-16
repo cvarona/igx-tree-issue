@@ -1,0 +1,10 @@
+@let gs = groups(); @let selected = selectedElements();
+{{ gs | json }}
+<igx-tree selection="Cascading">
+  @for (group of gs; track group.id) {
+  <igx-tree-node [expanded]="true">
+    <span>{{ group.id }}</span>
+  </igx-tree-node>
+  }
+</igx-tree>
+<button igxButton="contained" (click)="onLoadButtonPressed()">Load</button>
