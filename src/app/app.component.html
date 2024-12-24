@@ -1,10 +1,30 @@
 @let gs = groups(); @let selected = selectedElements();
-{{ gs | json }}
-<igx-tree selection="Cascading">
-  @for (group of gs; track group.id) {
-  <igx-tree-node [expanded]="true">
-    <span>{{ group.id }}</span>
-  </igx-tree-node>
-  }
-</igx-tree>
-<button igxButton="contained" (click)="onLoadButtonPressed()">Load</button>
+<div>
+  {{ gs | json }}
+  <div>
+    <igx-dialog [closeOnEscape]="true">
+      <igx-tree selection="Cascading">
+        @for (group of gs; track group.id) {
+        <igx-tree-node [expanded]="true">
+          <span>{{ group.id }}</span>
+          @for(element of group.elements; track element) {
+          <igx-tree-node [selected]="selected.includes(element)">
+            <span>{{ element }}</span>
+          </igx-tree-node>
+          } @for(child of group.children; track child) {
+          <igx-tree-node [expanded]="true">
+            <span>{{ child.id }}</span>
+            @for(element of child.elements; track element) {
+            <igx-tree-node [selected]="selected.includes(element)">
+              <span>{{ element }}</span>
+            </igx-tree-node>
+            }
+          </igx-tree-node>
+          }
+        </igx-tree-node>
+        }
+      </igx-tree>
+    </igx-dialog>
+    <button igxButton="contained" (click)="onLoadButtonPressed()">Load</button>
+  </div>
+</div>
